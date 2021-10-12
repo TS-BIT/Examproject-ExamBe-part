@@ -14,3 +14,6 @@ CREATE TABLE cows(
 
 SELECT * FROM cows;
 ```
+```
+Database (MySQL) dump file: "cow_farm_cows.sql"
+```
