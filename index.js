@@ -1,6 +1,9 @@
-const express = require("express");
-const mysql = require("mysql");
-var cors = require("cors");
+// const express = require("express");
+// const mysql = require("mysql");
+// var cors = require("cors");
+import express from "express";
+import mysql from "mysql";
+import cors from 'cors';
 
 const dbConfig = {
 	host: "localhost",
