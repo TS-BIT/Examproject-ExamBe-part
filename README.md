@@ -1,19 +1,19 @@
-# AngularBePP2
+# ExamBe
 
 SQL script to boot the DB: 
 ```
-CREATE DATABASE cow_farm;
-USE cow_farm;
-CREATE TABLE cows(
-	id INT  AUTO_INCREMENT PRIMARY KEY,
-	name VARCHAR(64) NOT NULL,
-	weight DECIMAL(6, 2)  NOT NULL,
-	total_milk DECIMAL(7, 1)  NOT NULL,
-	last_milking_time DATETIME NOT NULL
+CREATE DATABASE planes_flights;
+USE planes_flights;
+CREATE TABLE arrivals(
+	id INT(11) AUTO_INCREMENT PRIMARY KEY, UNIQUE,
+	from_town VARCHAR(64) NOT NULL,
+	airline VARCHAR(32) NOT NULL,
+	arrival_time DATETIME NOT NULL
+	is_late TINYINT(1)  NOT NULL
 );
 
-SELECT * FROM cows;
+SELECT * FROM arrivals;
 ```
 ```
-Database (MySQL) dump file: "cow_farm_cows.sql"
+Database (MySQL) dump file: "planes_flights_arrivals.sql"
 ```

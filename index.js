@@ -1,6 +1,3 @@
-// const express = require("express");
-// const mysql = require("mysql");
-// var cors = require("cors");
 import express from "express";
 import mysql from "mysql";
 import cors from 'cors';
@@ -9,7 +6,7 @@ const dbConfig = {
 	host: "localhost",
 	user: "root",
 	password: "root",
-	database: "cow_farm",
+	database: "planes_flights",
 };
 
 const connection = mysql.createConnection({
@@ -41,16 +38,16 @@ app.get("/test-conn", cors(corsOptions), (req, res) => {
 	});
 });
 
-app.get("/cows", cors(corsOptions), (req, res) => {
-	connection.query("SELECT * FROM Cows", (err, rows, fields) => {
+app.get("/arrivals", cors(corsOptions), (req, res) => {
+	connection.query("SELECT * FROM arrivals", (err, rows, fields) => {
 		if (err) throw err;
 		res.status(200).send(rows);
 	});
 });
 
-app.get("/cows/:id", cors(corsOptions), (req, res) => {
+app.get("/arrivals/:id", cors(corsOptions), (req, res) => {
 	connection.query(
-		"SELECT * FROM Cows WHERE id = ?",
+		"SELECT * FROM arrivals WHERE id = ?",
 		req.params.id,
 		(err, rows, fields) => {
 			if (err) throw err;
@@ -59,17 +56,18 @@ app.get("/cows/:id", cors(corsOptions), (req, res) => {
 	);
 });
 
-app.post("/cows", cors(corsOptions), (req, res) => {
+app.post("/arrivals", cors(corsOptions), (req, res) => {
 	connection.query(
-		"INSERT INTO Cows (`name`, `weight`, `total_milk`, `last_milking_time`) VALUES (?, ?, ?, ?)",
+		"INSERT INTO arrivals (`from_town`, `airline`, `is_late`, `arrival_time`) VALUES (?, ?, ?, ?)",
 		[
-			req.body.name,
-			req.body.weight,
-			req.body.total_milk,
-			req.body.last_milking_time,
+			req.body.from_town,
+			req.body.airline,
+			req.body.is_late,
+			// req.body.arrival_time,
+			req.body.arrival_time.slice(0, 19).replace("T", " "), // TODO :: sometimes this fails
 		],
 		// TODO :: check if this can be simplified
-		// "INSERT INTO Cows VALUES (?)",
+		// "INSERT INTO arrivals VALUES (?)",
 		// req.body,
 		(err, rows, field) => {
 			if (err) throw err;
@@ -79,14 +77,15 @@ app.post("/cows", cors(corsOptions), (req, res) => {
 	);
 });
 
-app.put("/cows/:id", cors(corsOptions), (req, res) => {
+app.put("/arrivals/:id", cors(corsOptions), (req, res) => {
 	connection.query(
-		"UPDATE cows SET name = ?, weight = ?, total_milk = ?, last_milking_time = ? WHERE id = ?",
+		"UPDATE arrivals SET from_town = ?, airline = ?, is_late = ?, arrival_time = ? WHERE id = ?",
 		[
-			req.body.name,
-			req.body.weight,
-			req.body.total_milk,
-			req.body.last_milking_time,
+			req.body.from_town,
+			req.body.airline,
+			req.body.is_late,
+			// req.body.arrival_time,
+			req.body.arrival_time.slice(0, 19).replace("T", " "), // sanitization
 			req.params.id,
 		],
 		(err, rows, field) => {
@@ -97,10 +96,10 @@ app.put("/cows/:id", cors(corsOptions), (req, res) => {
 	);
 });
 
-app.delete("/cows/:id", cors(corsOptions), (req, res) => {
+app.delete("/arrivals/:id", cors(corsOptions), (req, res) => {
 	console.log(req.params.id);
 	connection.query(
-		"DELETE FROM Cows WHERE id=?",
+		"DELETE FROM arrivals WHERE id=?",
 		req.params.id,
 		(err, rows, field) => {
 			if (err) throw err;
